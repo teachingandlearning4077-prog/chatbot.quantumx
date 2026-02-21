@@ -4,8 +4,9 @@ Um chatbot chamado **QuantumX**, com interface web rica e pronto para funcionar 
 
 ## ✅ O que já funciona 100%
 
-- Site com elementos visuais (hero, cards, atalhos rápidos e imagem local).
+- Site com elementos visuais (hero, cards, temas, atalhos rápidos e imagem local).
 - Chat de texto com fallback local inteligente (sem API externa).
+- Se o backend falhar, o frontend ativa fallback local no próprio navegador para o chat não parar.
 - Cálculos, resumos e listas no fallback local.
 - Modo imagem quando `OPENAI_API_KEY` estiver configurada.
 - Suporte multiusuário por sessão (cookie por visitante).

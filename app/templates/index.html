@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="neon">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,11 +11,12 @@
       <header class="hero">
         <div>
           <h1>QuantumX</h1>
-          <p class="subtitle">Assistente estilo ChatGPT: texto + geração de imagens</p>
+          <p class="subtitle">Assistente estilo ChatGPT: conversa em tempo real, temas e imagem</p>
           <div class="chips">
             <span class="chip">⚡ Rápido</span>
             <span class="chip">🧠 Inteligente</span>
             <span class="chip">🎨 Imagens</span>
+            <span class="chip">🛡️ Funciona sem API</span>
           </div>
         </div>
         <img class="hero-image" src="/static/images/quantumx-orb.svg" alt="Ilustração QuantumX" />
@@ -27,13 +28,20 @@
         <article class="feature-card">Criação de imagens por prompt</article>
       </section>
 
+      <section class="theme-panel" aria-label="Temas visuais">
+        <strong>Tema:</strong>
+        <button type="button" class="theme-btn" data-theme="neon">Neon</button>
+        <button type="button" class="theme-btn" data-theme="sunset">Sunset</button>
+        <button type="button" class="theme-btn" data-theme="forest">Forest</button>
+      </section>
+
       <section id="quick-actions" class="quick-actions" aria-label="Ações rápidas">
         <button type="button" data-prompt="Explique computação quântica de forma simples.">Explicar tema</button>
         <button type="button" data-prompt="Crie um plano de estudos de 7 dias para IA.">Plano de estudos</button>
         <button type="button" data-prompt="Desenhe um robô futurista em neon azul e roxo.">Gerar imagem</button>
       </section>
 
-      <section id="chat-window" class="chat-window"></section>
+      <section id="chat-window" class="chat-window" aria-live="polite"></section>
 
       <form id="chat-form">
         <div class="toolbar">

@@ -4,6 +4,7 @@ const chatWindow = document.getElementById('chat-window');
 const modeSelect = document.getElementById('mode');
 const statusLabel = document.getElementById('status');
 const quickActions = document.getElementById('quick-actions');
+const themeButtons = document.querySelectorAll('.theme-btn');
 
 function setStatus(text) {
   if (statusLabel) statusLabel.textContent = text;
@@ -15,17 +16,13 @@ function appendMessage(text, cls) {
   bubble.textContent = text;
   chatWindow.appendChild(bubble);
   chatWindow.scrollTop = chatWindow.scrollHeight;
-  return bubble;
 }
 
 function appendGeneratedImage(base64) {
   if (!base64) return;
   const wrap = document.createElement('div');
   wrap.className = 'msg bot';
-
-  const title = document.createElement('div');
-  title.textContent = 'Imagem gerada:';
-  wrap.appendChild(title);
+  wrap.innerHTML = '<div>Imagem gerada:</div>';
 
   const image = document.createElement('img');
   image.className = 'generated-image';
@@ -37,17 +34,54 @@ function appendGeneratedImage(base64) {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
+function localReply(message, mode) {
+  const text = message.toLowerCase();
+  if (mode === 'image') {
+    return 'Sem API externa, não consigo renderizar imagem real agora. Mas posso criar um prompt perfeito para você usar em qualquer gerador de imagem.';
+  }
+  if (text.includes('calcule') || text.includes('quanto é')) {
+    return 'Posso calcular! Exemplo: "calcule 25*14".';
+  }
+  if (text.includes('resuma')) {
+    return 'Envie o texto completo e eu te devolvo um resumo em tópicos.';
+  }
+  if (text.includes('lista')) {
+    return 'Claro! Posso montar uma checklist com prioridades e prazos.';
+  }
+  return 'Estou online ✅. Posso responder perguntas, criar ideias, ajudar com estudos, programação e planejamento.';
+}
+
+async function askServer(message, mode) {
+  const formData = new FormData();
+  formData.append('message', message);
+  formData.append('mode', mode);
+
+  const response = await fetch('/chat', { method: 'POST', body: formData });
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
 function applyQuickAction(prompt) {
   input.value = prompt;
-  if (prompt.toLowerCase().includes('desenhe') || prompt.toLowerCase().includes('imagem')) {
-    modeSelect.value = 'image';
-  } else {
-    modeSelect.value = 'text';
-  }
+  modeSelect.value = prompt.toLowerCase().includes('desenhe') ? 'image' : 'text';
   input.focus();
 }
 
-appendMessage('Olá! Eu sou o QuantumX. Escolha o modo de texto ou imagem e me peça qualquer coisa.', 'bot');
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('qx-theme', theme);
+}
+
+appendMessage('Olá! Eu sou o QuantumX. Agora o chat funciona com servidor ou em fallback local no navegador.', 'bot');
+
+const savedTheme = localStorage.getItem('qx-theme');
+if (savedTheme) applyTheme(savedTheme);
+
+themeButtons.forEach((btn) => {
+  btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
+});
 
 if (quickActions) {
   quickActions.addEventListener('click', (event) => {
@@ -67,24 +101,13 @@ form.addEventListener('submit', async (event) => {
   input.value = '';
   setStatus('Processando...');
 
-  const formData = new FormData();
-  formData.append('message', message);
-  formData.append('mode', mode);
-
   try {
-    const response = await fetch('/chat', { method: 'POST', body: formData });
-    if (!response.ok) {
-      appendMessage(`Erro do servidor (${response.status}).`, 'bot');
-      setStatus('Erro');
-      return;
-    }
-
-    const data = await response.json();
+    const data = await askServer(message, mode);
     appendMessage(data.response || 'Sem resposta no momento.', 'bot');
     appendGeneratedImage(data.image_base64);
     setStatus('Pronto');
   } catch (error) {
-    appendMessage('Erro de conexão. Tente novamente.', 'bot');
-    setStatus('Sem conexão');
+    appendMessage(localReply(message, mode), 'bot');
+    setStatus('Fallback local ativo');
   }
 });
