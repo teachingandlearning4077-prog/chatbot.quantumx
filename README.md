@@ -1,26 +1,47 @@
 # QuantumX Chatbot
 
-Um chatbot chamado **QuantumX**, com interface web e arquitetura para funcionar como assistente estilo ChatGPT.
+Um chatbot chamado **QuantumX**, com interface web rica e pronto para funcionar **com ou sem FastAPI/OpenAI**.
 
-## O que ele faz agora
+## ✅ O que já funciona 100%
 
-- Chat em linguagem natural para perguntas gerais.
-- Suporte a múltiplos usuários por sessão (cookie por visitante).
-- Modo de **geração de imagens** via OpenAI (`gpt-image-1`).
-- Interface nova com cards de recursos, atalhos rápidos e ilustração visual.
-- Fallback local quando API não estiver configurada (cálculos, resumos e listas).
+- Site com elementos visuais (hero, cards, atalhos rápidos e imagem local).
+- Chat de texto com fallback local inteligente (sem API externa).
+- Cálculos, resumos e listas no fallback local.
+- Modo imagem quando `OPENAI_API_KEY` estiver configurada.
+- Suporte multiusuário por sessão (cookie por visitante).
 
-## Configurar OpenAI API (obrigatório para modo avançado)
+## Modos de execução
 
-> **Importante:** não commite sua chave no código.
+### 1) Modo automático (recomendado)
 
-1. Copie o exemplo:
+```bash
+python start.py
+```
+
+- Se `fastapi` + `uvicorn` estiverem instalados, usa o app FastAPI.
+- Se não estiverem, sobe automaticamente o servidor local sem dependências externas.
+
+### 2) Modo FastAPI (opcional)
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### 3) Modo local sem API/framework
+
+```bash
+python -m app.local_server
+```
+
+Depois abra: `http://127.0.0.1:8000`
+
+## Configurar OpenAI (opcional para modo avançado)
 
 ```bash
 cp .env.example .env
 ```
 
-2. Edite `.env` e coloque sua chave real:
+No `.env`:
 
 ```env
 OPENAI_API_KEY=sk-proj-sua-chave-real
@@ -28,21 +49,11 @@ OPENAI_MODEL=gpt-4o-mini
 OPENAI_IMAGE_MODEL=gpt-image-1
 ```
 
-## Rodando localmente
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-Depois abra: `http://127.0.0.1:8000`
-
 ## Estrutura
 
-- `app/main.py`: API, sessões por usuário e rotas web.
-- `app/engine.py`: núcleo de resposta textual e geração de imagens.
-- `app/settings.py`: leitura segura de variáveis e `.env`.
+- `start.py`: inicialização automática (FastAPI se disponível, senão local).
+- `app/local_server.py`: servidor HTTP local sem FastAPI.
+- `app/main.py`: API FastAPI.
+- `app/engine.py`: cérebro do QuantumX (texto + imagem + fallback).
 - `app/templates/` e `app/static/`: frontend.
 - `tests/`: testes automatizados.
