@@ -8,8 +8,30 @@
   </head>
   <body>
     <main class="container">
-      <h1>QuantumX</h1>
-      <p class="subtitle">Assistente estilo ChatGPT: texto + geração de imagens</p>
+      <header class="hero">
+        <div>
+          <h1>QuantumX</h1>
+          <p class="subtitle">Assistente estilo ChatGPT: texto + geração de imagens</p>
+          <div class="chips">
+            <span class="chip">⚡ Rápido</span>
+            <span class="chip">🧠 Inteligente</span>
+            <span class="chip">🎨 Imagens</span>
+          </div>
+        </div>
+        <img class="hero-image" src="/static/images/quantumx-orb.svg" alt="Ilustração QuantumX" />
+      </header>
+
+      <section class="features" aria-label="Recursos do chatbot">
+        <article class="feature-card">Perguntas e respostas avançadas</article>
+        <article class="feature-card">Resumo e organização de tarefas</article>
+        <article class="feature-card">Criação de imagens por prompt</article>
+      </section>
+
+      <section id="quick-actions" class="quick-actions" aria-label="Ações rápidas">
+        <button type="button" data-prompt="Explique computação quântica de forma simples.">Explicar tema</button>
+        <button type="button" data-prompt="Crie um plano de estudos de 7 dias para IA.">Plano de estudos</button>
+        <button type="button" data-prompt="Desenhe um robô futurista em neon azul e roxo.">Gerar imagem</button>
+      </section>
 
       <section id="chat-window" class="chat-window"></section>
 
@@ -20,6 +42,7 @@
             <option value="text" selected>Perguntas e respostas</option>
             <option value="image">Criar imagem</option>
           </select>
+          <span id="status" class="status">Pronto</span>
         </div>
         <input id="message" name="message" type="text" placeholder="Digite sua mensagem..." required />
         <button type="submit">Enviar</button>

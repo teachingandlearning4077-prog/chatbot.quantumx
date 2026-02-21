@@ -46,12 +46,18 @@ def home(request: Request):
 
 @app.post("/chat")
 def chat(request: Request, message: str = Form(...), mode: str = Form("text")):
+    clean_message = message.strip()
+    if not clean_message:
+        return JSONResponse({"response": "Mensagem vazia. Digite algo para continuar.", "image_base64": None, "mode": mode}, status_code=400)
+
+    valid_mode = mode if mode in {"text", "image"} else "text"
+
     session_id, engine, created = _get_engine(request)
-    result = engine.ask(message, mode=mode)
+    result = engine.ask(clean_message, mode=valid_mode)
     payload = {
         "response": result.text,
         "image_base64": result.image_base64,
-        "mode": mode,
+        "mode": valid_mode,
     }
     response = JSONResponse(payload)
     if created:

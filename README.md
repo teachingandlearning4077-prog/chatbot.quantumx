@@ -7,6 +7,7 @@ Um chatbot chamado **QuantumX**, com interface web e arquitetura para funcionar 
 - Chat em linguagem natural para perguntas gerais.
 - Suporte a múltiplos usuários por sessão (cookie por visitante).
 - Modo de **geração de imagens** via OpenAI (`gpt-image-1`).
+- Interface nova com cards de recursos, atalhos rápidos e ilustração visual.
 - Fallback local quando API não estiver configurada (cálculos, resumos e listas).
 
 ## Configurar OpenAI API (obrigatório para modo avançado)

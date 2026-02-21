@@ -19,13 +19,68 @@ body {
   padding: 1.2rem;
 }
 
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.hero-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
 h1 { margin: 0; }
 .subtitle { margin-top: 0.25rem; opacity: 0.8; }
 
+.chips {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.82rem;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.9rem 0;
+}
+
+.feature-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.65rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.quick-actions button {
+  background: rgba(85, 128, 255, 0.2);
+  border: 1px solid rgba(171, 190, 255, 0.35);
+}
+
 .chat-window {
   margin-top: 1rem;
-  min-height: 380px;
-  max-height: 60vh;
+  min-height: 320px;
+  max-height: 50vh;
   overflow-y: auto;
   padding: 0.8rem;
   border-radius: 12px;
@@ -62,6 +117,12 @@ form {
   gap: .5rem;
   align-items: center;
   opacity: .95;
+}
+
+.status {
+  margin-left: auto;
+  font-size: .86rem;
+  opacity: .8;
 }
 
 input, button, select {
